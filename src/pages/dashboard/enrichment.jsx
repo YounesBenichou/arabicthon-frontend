@@ -86,27 +86,37 @@ export function Enrichment() {
     }
   }
 
-  const createWorker = async () => {
-    try {
+  // const createWorker = async () => {
+  //   try {
 
-      console.log({...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()})
-      const { data } = await api.PostWorker(
-        // {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()}
-        {
+  //     console.log({...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()})
+  //     const { data } = await api.PostWorker(
+  //       // {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()}
+  //       {
+  //         "name": "wxxxxyy",
+  //         "source_ids": ["1", "2"],
+  //         "input_words": "w1, w2, w3",
+  //         "task": "task 1",
+  //         "domain": "d1",
+  //         "description": "description"
+  //     }
+  //       )
+  //     setLoading(false)
+  //     console.log(data)
+  //   } catch (error) {
+  //     console.log(error)
+  //     setLoading(false)
+  //   }
+  // }
+  const createWorker = () => {
+    api.PostWorker({
           "name": "wxxxxyy",
           "source_ids": ["1", "2"],
           "input_words": "w1, w2, w3",
           "task": "task 1",
           "domain": "d1",
           "description": "description"
-      }
-        )
-      setLoading(false)
-      console.log(data)
-    } catch (error) {
-      console.log(error)
-      setLoading(false)
-    }
+      })
   }
   useEffect(() => {
     fetchSources()

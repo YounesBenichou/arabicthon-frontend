@@ -2,7 +2,7 @@ import axios from 'axios';
 // import Cookies from 'universal-cookie';
 
 // ngrok
-const url_backend = 'http://c6f0-154-246-66-146.ngrok-free.app';
+const url_backend = 'https://c6f0-154-246-66-146.ngrok-free.app';
 const url_event = '';
 const headers_form_data = {
     headers: {
@@ -42,7 +42,27 @@ export const DeleteSource = (postData) => axios.delete(`${url_backend}${'/source
 export const fetchWorkers = () => axios.get(`${url_backend}${'/workers'}`)
 export const fetchOneWorker = (id) => axios.get(`${url_backend}${'/workers/'}${id}`)
 export const EventsWorker = () => axios.get(`${url_event}${'/workers/events'}`)
-export const PostWorker = (postData) => axios.post(`${url_backend}${'/worker/create'}`,postData, {headers: {"Access-Control-Allow-Origin": "*"}})
+// export const PostWorker = (postData) => axios.post(`${url_backend}${'/worker/create'}`,postData, {
+//     method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify(postData)})
+
+export const PostWorker =  (postData) =>  fetch(`${url_backend}${'/worker/create'}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(postData)
+  })
+    .then(response => response.json())
+    .then(result => {
+      console.log(result); // Handle the response data here
+    })
+    .catch(error => {
+      console.log()} 
+)
 export const PutWorker = (postData) => axios.put(`${url_backend}${'/workers/update'}`,postData, headers_form_data)
 export const DeleteWorker = (postData) => axios.delete(`${url_backend}${'/workers/delete'}`,postData, headers_form_data)
 
