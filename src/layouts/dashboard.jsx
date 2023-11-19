@@ -10,6 +10,7 @@ import {
 import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 import { Enrichment } from "@/pages/dashboard/enrichment.jsx";
+import WorkerDetail from "@/pages/dashboard/worker-detail";
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -20,7 +21,7 @@ export function Dashboard() {
       <Sidenav
         routes={routes}
         brandImg={
-          sidenavType === "dark" ? "/img/dict-logo.svg" : "/img/logo-ct-dark.png"
+         "/img/dict-logo.svg" 
         }
       />
       <div className="p-4 xl:mr-80">
@@ -45,6 +46,7 @@ export function Dashboard() {
           )}
           
             <Route  path={'/enrichment'} element={<Enrichment />} />
+            <Route path={'/worker/detail/:id'} element={<WorkerDetail />} />
         </Routes>
         <div className="text-blue-gray-600">
           <Footer />

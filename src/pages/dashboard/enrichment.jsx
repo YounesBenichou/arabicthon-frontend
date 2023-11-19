@@ -1,4 +1,5 @@
 import {React, useEffect, useRef, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -19,41 +20,20 @@ import { Spinner } from "@material-tailwind/react";
 
 export function Enrichment() {
 
+  // navigation 
+  const navigate = useNavigate();
 
   // constants 
-
+  
 
   
   const tasks = [
-    {
-      "ar": "إستخلاص الكلمات",
-      "en": "words"
-    },
+
   {
       "ar": "تعريفات",
       "en": "definition"
   },
-  {
-      "ar": "مترادفات",   
-      "en": "synonyms"
-
-  },
-  {
-      "ar": "كلمات مضادة",    
-      "en": "antonyms"
-  },
-    {
-      "ar": "أمثلة",    
-      "en": "examples"
-    },
-    {
-      "ar": "أحداث تاريخية",    
-      "en": "historical events"
-    },
-    {
-      "ar": "شخصيات تاريخية",    
-      "en": "historical figures"
-    }
+  
   ]
 
     
@@ -67,13 +47,14 @@ export function Enrichment() {
   // states
   const [sources, setSources] = useState(
     [
-     
+     {source_id: 1, source_name: 'المعجم الوسيط'},
+     {source_id: 2, source_name: 'ويكيبيديا'},
   ]
   )
 
   const [postData, setPostData] = useState({ name: '', description: '', task: '', domain: '', input_words: '', source_ids: '' })
-  const [loading, setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(false)
+  const [postSuccess, setPostSuccess] = useState(false)
   // apis 
   const fetchSources = async () => {
     try {
@@ -86,38 +67,23 @@ export function Enrichment() {
     }
   }
 
-  // const createWorker = async () => {
-  //   try {
 
-  //     console.log({...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()})
-  //     const { data } = await api.PostWorker(
-  //       // {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()}
-  //       {
-  //         "name": "wxxxxyy",
-  //         "source_ids": ["1", "2"],
-  //         "input_words": "w1, w2, w3",
-  //         "task": "task 1",
-  //         "domain": "d1",
-  //         "description": "description"
-  //     }
-  //       )
-  //     setLoading(false)
-  //     console.log(data)
-  //   } catch (error) {
-  //     console.log(error)
-  //     setLoading(false)
-  //   }
-  // }
-  const createWorker = () => {
-    api.PostWorker({
-          "name": "wxxxxyy",
-          "source_ids": ["1", "2"],
-          "input_words": "w1, w2, w3",
-          "task": "task 1",
-          "domain": "d1",
-          "description": "description"
-      })
+  const createWorker = async () => {
+    try {
+
+      console.log(        {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
+      )
+      const { data } = await api.PostWorker(
+        {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
+        )
+      alert('تم إنشاء عملية إثراء بنجاح')
+      navigate('/dashboard/workers') // go to workers 
+    } catch (error) {
+      console.log(error)
+      alert('حدث خطأ أثناء إنشاء عملية الإثراء')
+    }
   }
+    
   useEffect(() => {
     fetchSources()
   }, []);
@@ -268,7 +234,7 @@ export function Enrichment() {
                 },
               }}
               singleSelect />
-              </div>
+            </div>
             <div>
               <Typography variant="h6" className="font-lg mb-3 text-[#007a82]">
                 الكلمات المعنية <span className="text-sm font-noto font-light"> * قم بفصل الكلمات عن طريقة الفاصلة *</span>
@@ -281,6 +247,7 @@ export function Enrichment() {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
+                onChange={(e) => setPostData({ ...postData, input_words: e.target.value })}
               />
             </div>
             <div>

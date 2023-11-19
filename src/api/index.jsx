@@ -1,8 +1,9 @@
 import axios from 'axios';
 // import Cookies from 'universal-cookie';
 
-// ngrok
-const url_backend = 'https://c6f0-154-246-66-146.ngrok-free.app';
+// 
+
+const url_backend = 'http://172.162.233.226:3000';
 const url_event = '';
 const headers_form_data = {
     headers: {
@@ -33,36 +34,39 @@ const headers_json = {
 export const fetchSources = () => axios.get(`${url_backend}${'/sources'}`) 
 export const fetchOneSource = (id) => axios.get(`${url_backend}${'/sources/'}${id}`) 
 export const PostSourceFile = (postData) => axios.post(`${url_backend}${'/sources/upload'}`,postData, headers_form_data)
-export const PostSourceUrl = (postData) => axios.post(`${url_backend}${'/sources/add'}`,postData, headers_form_data)
+export const PostSourceUrl = (postData) => axios.post(`${url_backend}${'/source/add'}`,postData, {
+  method: 'POST',
+  withCredentials: false,
+headers: {
+  'Content-Type': 'multipart/form-data'
+},
+})
 export const PutSource = (postData) => axios.put(`${url_backend}${'/sources/update'}`,postData, headers_form_data)
 export const DeleteSource = (postData) => axios.delete(`${url_backend}${'/sources/delete'}`,postData, headers_form_data)
 
 
 // ** Workers **
 export const fetchWorkers = () => axios.get(`${url_backend}${'/workers'}`)
-export const fetchOneWorker = (id) => axios.get(`${url_backend}${'/workers/'}${id}`)
+export const fetchOneWorker = (id) => axios.get(`${url_backend}${'/workers/'}${id}`,{
+  method: 'GET',
+    withCredentials: false,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+})
 export const EventsWorker = () => axios.get(`${url_event}${'/workers/events'}`)
-// export const PostWorker = (postData) => axios.post(`${url_backend}${'/worker/create'}`,postData, {
-//     method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json'
-//   },
-//   body: JSON.stringify(postData)})
-
-export const PostWorker =  (postData) =>  fetch(`${url_backend}${'/worker/create'}`, {
+export const PostWorker = (postData) => axios.post(`${url_backend}${'/worker/create'}`,postData, {
     method: 'POST',
+    withCredentials: false,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+ })
+
+export const PutRelation = (postData) => axios.put(`${url_backend}${'/relation/update'}`,postData, {
+    method: 'PUT',
+    withCredentials: false,
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(postData)
-  })
-    .then(response => response.json())
-    .then(result => {
-      console.log(result); // Handle the response data here
-    })
-    .catch(error => {
-      console.log()} 
-)
-export const PutWorker = (postData) => axios.put(`${url_backend}${'/workers/update'}`,postData, headers_form_data)
-export const DeleteWorker = (postData) => axios.delete(`${url_backend}${'/workers/delete'}`,postData, headers_form_data)
-
+})

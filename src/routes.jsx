@@ -7,9 +7,7 @@ import {
   RectangleStackIcon,
   ArrowUpTrayIcon
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
-import { SignIn, SignUp } from "@/pages/auth";
-import Enrichment from "./pages/dashboard/enrichment";
+import { Home, Workers, Sources } from "@/pages/dashboard";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -20,12 +18,12 @@ export const routes = [
     layout: "dashboard",
     layout_ar: "الرئيسية",
     pages: [
-      {
-        icon: <HomeIcon {...icon} />,
-        name: "الرئيسية",
-        path: "/home",
-        element: <Home />,
-      },
+      // {
+      //   icon: <HomeIcon {...icon} />,
+      //   name: "الرئيسية",
+      //   path: "/home",
+      //   element: <Home />,
+      // },
       // {
       //   icon: <UserCircleIcon {...icon} />,
       //   name: "profile",
@@ -35,14 +33,14 @@ export const routes = [
       {
         icon: <TableCellsIcon {...icon} />,
         name: "عمليات الإثراء",
-        path: "/tables",
-        element: <Tables />,
+        path: "/workers",
+        element: <Workers />,
       },
       {
         icon: <ArrowUpTrayIcon {...icon} />,
         name: "المصادر",
-        path: "/notifications",
-        element: <Notifications />,
+        path: "/sources",
+        element: <Sources />,
       },
 
     ],
