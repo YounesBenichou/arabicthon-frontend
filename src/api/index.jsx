@@ -60,6 +60,9 @@ export const fetchWorkers = () => axios.get(`${url_backend}${'/workers'}`,
   headers: {
     'Content-Type': 'application/json'
   },
+  httpsAgent: new https.Agent({  
+    rejectUnauthorized: false   // Ignore SSL certificate errors
+  })
 }) 
 export const fetchOneWorker = (id) => axios.get(`${url_backend}${'/workers/'}${id}`,{
   method: 'GET',
