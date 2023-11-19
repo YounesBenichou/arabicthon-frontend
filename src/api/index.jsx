@@ -3,15 +3,12 @@ import axios from 'axios';
 
 // 
 
-const url_backend = 'https://172.162.233.226:3000';
+
+const url_backend = "https://live-raccoon-probably.ngrok-free.app"
 const url_event = '';
-const headers_form_data = {
-    headers: {
-    //   'Authorization': 'Token ' + token,
-      'content-type': 'multipart/form-data',
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
+const headers_ngrok = {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true'
 }
 
 const headers_pdf = {
@@ -34,56 +31,42 @@ const headers_json = {
 export const fetchSources = () => axios.get(`${url_backend}${'/sources'}`,
 {
   method: 'GET',
-    withCredentials: false,
-  headers: {
-    'Content-Type': 'application/json'
-  },
-}) 
+  withCredentials: false,
+  headers: headers_ngrok,
+  })
+
 export const fetchOneSource = (id) => axios.get(`${url_backend}${'/sources/'}${id}`) 
 export const PostSourceFile = (postData) => axios.post(`${url_backend}${'/sources/upload'}`,postData, headers_form_data)
 export const PostSourceUrl = (postData) => axios.post(`${url_backend}${'/source/add'}`,postData, {
   method: 'POST',
   withCredentials: false,
-headers: {
-  'Content-Type': 'multipart/form-data'
-},
+headers: headers_ngrok,
 })
 export const PutSource = (postData) => axios.put(`${url_backend}${'/sources/update'}`,postData, headers_form_data)
 export const DeleteSource = (postData) => axios.delete(`${url_backend}${'/sources/delete'}`,postData, headers_form_data)
 
 
-// ** Workers **
-export const fetchWorkers = () => axios.get(`${url_backend}${'/workers'}`,
-{
+export const fetchWorkers = () => axios.get(`${url_backend}${'/workers/'}`,{
   method: 'GET',
-    withCredentials: false,
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  httpsAgent: new https.Agent({  
-    rejectUnauthorized: false   // Ignore SSL certificate errors
-  })
-}) 
+  withCredentials: false,
+  headers: headers_ngrok,
+})
+
 export const fetchOneWorker = (id) => axios.get(`${url_backend}${'/workers/'}${id}`,{
   method: 'GET',
     withCredentials: false,
-  headers: {
-    'Content-Type': 'application/json'
-  },
+    headers: headers_ngrok,
 })
 export const EventsWorker = () => axios.get(`${url_event}${'/workers/events'}`)
 export const PostWorker = (postData) => axios.post(`${url_backend}${'/worker/create'}`,postData, {
     method: 'POST',
     withCredentials: false,
-  headers: {
-    'Content-Type': 'application/json'
-  },
+    headers: headers_ngrok,
  })
 
 export const PutRelation = (postData) => axios.put(`${url_backend}${'/relation/update'}`,postData, {
     method: 'PUT',
     withCredentials: false,
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: headers_ngrok,
 })
+

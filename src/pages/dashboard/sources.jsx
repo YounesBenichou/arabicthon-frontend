@@ -21,7 +21,7 @@ import * as api from "@/api";
 import { useTranslation } from "react-i18next";
 
 
-
+import axios from "axios";
 export function Sources() {
   const { t } = useTranslation();
       
@@ -46,8 +46,7 @@ const [sources, setSources] = useState(
   const fetchSources = async () => {
     try {
       const { data } = await api.fetchSources()
-       setSources(data.data)
-       console.log(data)
+      setSources(data.data)
     } catch (error) {
       console.log(error)
     }
@@ -57,6 +56,7 @@ const [sources, setSources] = useState(
     try {
       const { data } = await api.PostSourceUrl({...postData, source_type: type_ref.current.getSelectedItems()[0]})
       fetchSources()
+
       setPostData([{}])
     } catch (error) {
       console.log(error)
