@@ -31,7 +31,14 @@ const headers_json = {
 
 
 // ** Sources **
-export const fetchSources = () => axios.get(`${url_backend}${'/sources'}`) 
+export const fetchSources = () => axios.get(`${url_backend}${'/sources'}`,
+{
+  method: 'GET',
+    withCredentials: false,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+}) 
 export const fetchOneSource = (id) => axios.get(`${url_backend}${'/sources/'}${id}`) 
 export const PostSourceFile = (postData) => axios.post(`${url_backend}${'/sources/upload'}`,postData, headers_form_data)
 export const PostSourceUrl = (postData) => axios.post(`${url_backend}${'/source/add'}`,postData, {
@@ -46,7 +53,14 @@ export const DeleteSource = (postData) => axios.delete(`${url_backend}${'/source
 
 
 // ** Workers **
-export const fetchWorkers = () => axios.get(`${url_backend}${'/workers'}`)
+export const fetchWorkers = () => axios.get(`${url_backend}${'/workers'}`,
+{
+  method: 'GET',
+    withCredentials: false,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+}) 
 export const fetchOneWorker = (id) => axios.get(`${url_backend}${'/workers/'}${id}`,{
   method: 'GET',
     withCredentials: false,
