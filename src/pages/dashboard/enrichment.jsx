@@ -47,8 +47,7 @@ export function Enrichment() {
   // states
   const [sources, setSources] = useState(
     [
-     {source_id: 1, source_name: 'المعجم الوسيط'},
-     {source_id: 2, source_name: 'ويكيبيديا'},
+    
   ]
   )
 
