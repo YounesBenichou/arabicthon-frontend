@@ -51,19 +51,17 @@ const [sources, setSources] = useState(
       console.log(error)
     }
   }
-
+  const [sourceData, setSourceData] = useState({ source_name:"", source_url :"" , source_type: "" })
   const postSource = async () => {
     try {
-      const { data } = await api.PostSourceUrl({...postData, source_type: type_ref.current.getSelectedItems()[0]})
+    
+      const { data } = await api.PostSourceUrl({...sourceData, source_type: type_ref.current.getSelectedItems()[0]})
       fetchSources()
-
-      setPostData([{}])
     } catch (error) {
       console.log(error)
     }
   }
 
-  const [postData, setPostData] = useState({ source_name:"", source_url :"" , source_type: "" })
 
     
   useEffect(() => {
@@ -177,12 +175,12 @@ const [sources, setSources] = useState(
               <Input
                 size="lg"
                 placeholder="إسم المصدر"
-                value={postData.source_name}
+                // value={postData.source_name}
                 className=" !border-[#01A4AC] focus:!border-[#01A4AC]"
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(e) => setPostData({ ...postData, source_name: e.target.value })}
+                onChange={(e) => setSourceData({ ...sourceData, source_name: e.target.value })}
               />
             </div>
             <div>
@@ -239,13 +237,13 @@ const [sources, setSources] = useState(
               </Typography>
               <Input
                 size="lg"
-                value={postData.source_url}
+                // value={postData.source_url}
                 placeholder="رابط المصدر"
                 className=" !border-[#01A4AC] focus:!border-[#01A4AC]"
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(e) => setPostData({ ...postData, source_url: e.target.value })}
+                onChange={(e) => setSourceData({ ...sourceData, source_url: e.target.value })}
               />
             </div>
           

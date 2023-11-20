@@ -71,6 +71,7 @@ const [outputs, setOutputs] = useState(
     }
   }
   // API : 
+  const [completion, setCompletion] = useState(0)
   const fetWorkerDetail = async () => {
     try {
       const { data } = await api.fetchOneWorker(id)
@@ -90,133 +91,135 @@ const [outputs, setOutputs] = useState(
       <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url('/img/background-image.png')] bg-cover	bg-center">
         <div className="absolute inset-0 h-full w-full bg-[#005859]" />
       </div>
-      <Card className="mx-3 -mt-40 mb-6 lg:mx-4 border border-blue-gray-100">
-        <CardBody className="p-4">
-          
-          <div className="flex flex-col w-fit">
+      {WorkerDetail && 
+        <Card className="mx-3 -mt-40 mb-6 lg:mx-4 border border-blue-gray-100">
+          <CardBody className="p-4">
             
-            <ProfileInfoCard
-              title=" معلومات عامة"
-              description= {WorkerDetail.worker_description}              
-              details={{
-                "إسم العملية": WorkerDetail.worker_name,
-                "المهمة": t(WorkerDetail.task),
-                "المجال": WorkerDetail.domain,
-                // "الكلمات المعنية": WorkerDetail.worker_inputs,
-                "تاريخ البدء": WorkerDetail.start_date.split("T")[0] + " [" + WorkerDetail.start_date.split("T")[1] + "]",
-                "تاريخ الإنتهاء": WorkerDetail.end_date.split("T")[0] + " [" + WorkerDetail.end_date.split("T")[1] + "]",
-                "نسبة عملية التحقق من المخرجات": WorkerDetail.completion + "%",
-              }}
-              status = {WorkerDetail.worker_status}
-            />
-            
-            
-            
-          </div>
-          <div className="px-4 pb-4">
-          <Typography variant="h5" color="blue-gray" className="font-noto font-bold underline mt-10 mb-3">
-              المخرجات
-          </Typography>
-          <table className="w-full min-w-[640px] table-auto">
-            <thead>
-              <tr>
-                {["الكلمة المدخلة", "المخرج", "الحالة",].map(
-                  (el) => (
-                    <th
-                      key={el}
-                      className="border-b border-blue-gray-50 py-3 px-5 text-right text-noto "
-                    >
-                      <Typography
-                        className="text-[13px] uppercase text-blue-gray-400  text-noto font-bold"
+            <div className="flex flex-col w-fit">
+              
+              <ProfileInfoCard
+                title=" معلومات عامة"
+                description= {WorkerDetail.worker_description}              
+                details={{
+                  "إسم العملية": WorkerDetail.worker_name,
+                  "المهمة": t(WorkerDetail.task),
+                  "المجال": WorkerDetail.domain,
+                  // "الكلمات المعنية": WorkerDetail.worker_inputs,
+                  "تاريخ البدء": WorkerDetail.start_date.split("T")[0] + " [" + WorkerDetail.start_date.split("T")[1] + "]",
+                  "تاريخ الإنتهاء": WorkerDetail.end_date.split("T")[0] + " [" + WorkerDetail.end_date.split("T")[1] + "]",
+                  "نسبة عملية التحقق من المخرجات": (Math.round(WorkerDetail.completion * 100) / 100).toFixed(2) + "%",
+                }}
+                status = {WorkerDetail.worker_status}
+              />
+              
+              
+              
+            </div>
+            <div className="px-4 pb-4">
+            <Typography variant="h5" color="blue-gray" className="font-noto font-bold underline mt-10 mb-3">
+                المخرجات
+            </Typography>
+            <table className="w-full min-w-[640px] table-auto">
+              <thead>
+                <tr>
+                  {["الكلمة المدخلة", "المخرج", "الحالة",].map(
+                    (el) => (
+                      <th
+                        key={el}
+                        className="border-b border-blue-gray-50 py-3 px-5 text-right text-noto "
                       >
-                        {el}
-                      </Typography>
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {outputs.map(
-                ({id_relation,word, definition, status}, key) => {
-                  const className = `py-3 px-5 ${
-                    key === outputs.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
+                        <Typography
+                          className="text-[13px] uppercase text-blue-gray-400  text-noto font-bold"
+                        >
+                          {el}
+                        </Typography>
+                      </th>
+                    )
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {outputs.map(
+                  ({id_relation,word, definition, status}, key) => {
+                    const className = `py-3 px-5 ${
+                      key === outputs.length - 1
+                        ? ""
+                        : "border-b border-blue-gray-50"
+                    }`;
 
-                  return (
-                    <tr key={id_relation} 
-                      className="hover:bg-blue-gray-100"
-                    >
-                      <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-bold font-noto text-blue-gray-800"
-                          >
-                            {word}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={className} 
+                    return (
+                      <tr key={id_relation} 
+                        className="hover:bg-blue-gray-100"
                       >
-                        <div className="flex items-center gap-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-bold font-noto text-blue-gray-800"
-                          >
-                            {definition}
-                          </Typography>
-                        </div>
-                      </td>
-
-                      <td className={className} 
-                      >
-                        <div className="flex items-center gap-4">
-                        <Menu
-                              animate={{
-                                mount: { y: 0 },
-                                unmount: { y: 25 },
-                              }}
+                        <td className={className}>
+                          <div className="flex items-center gap-4">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-bold font-noto text-blue-gray-800"
                             >
-                              <MenuHandler>
-                                <Button
-                                  variant="text"
-                                  className="flex bg-[#007a82] color-white text-white items-center font-noto text-xs w-[120px]  py-2 px-5 font-normal capitalize tracking-normal"
-                                >
-                                  {/* <Typography variant="small" > */}
-                                  {t(status)} 
-                                  {/* </Typography> */}
-                                  <ChevronDownIcon
-                                    strokeWidth={2.5}
-                                    className={`h-3.5 w-3.5 mx-2 transition-transform absolute left-0 
-                                    }`}
-                                  />
-                                </Button>
-                              </MenuHandler>
-                              <MenuList >
-                                <MenuItem value={"pending"}   onClick={(e)=> updateOutput(id_relation, e.target.value)}>قيد المراجعة</MenuItem>
-                                <MenuItem value={"accepted"}  onClick={(e)=> updateOutput(id_relation, e.target.value)}>مقبول</MenuItem>
-                                <MenuItem value={"rejected"}  onClick={(e)=> updateOutput(id_relation, e.target.value)}>مرفوض</MenuItem>
-                              </MenuList>
-                        </Menu>
-                        </div>
-                      </td>
+                              {word}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className={className} 
+                        >
+                          <div className="flex items-center gap-4">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-bold font-noto text-blue-gray-800"
+                            >
+                              {definition}
+                            </Typography>
+                          </div>
+                        </td>
 
-                      
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-          </div>
-          
-        </CardBody>
-      </Card>
+                        <td className={className} 
+                        >
+                          <div className="flex items-center gap-4">
+                          <Menu
+                                animate={{
+                                  mount: { y: 0 },
+                                  unmount: { y: 25 },
+                                }}
+                              >
+                                <MenuHandler>
+                                  <Button
+                                    variant="text"
+                                    className="flex bg-[#007a82] color-white text-white items-center font-noto text-xs w-[120px]  py-2 px-5 font-normal capitalize tracking-normal"
+                                  >
+                                    {/* <Typography variant="small" > */}
+                                    {t(status)} 
+                                    {/* </Typography> */}
+                                    <ChevronDownIcon
+                                      strokeWidth={2.5}
+                                      className={`h-3.5 w-3.5 mx-2 transition-transform absolute left-0 
+                                      }`}
+                                    />
+                                  </Button>
+                                </MenuHandler>
+                                <MenuList >
+                                  <MenuItem value={"pending"}   onClick={(e)=> updateOutput(id_relation, e.target.value)}>قيد المراجعة</MenuItem>
+                                  <MenuItem value={"accepted"}  onClick={(e)=> updateOutput(id_relation, e.target.value)}>مقبول</MenuItem>
+                                  <MenuItem value={"rejected"}  onClick={(e)=> updateOutput(id_relation, e.target.value)}>مرفوض</MenuItem>
+                                </MenuList>
+                          </Menu>
+                          </div>
+                        </td>
+
+                        
+                      </tr>
+                    );
+                  }
+                )}
+              </tbody>
+            </table>
+            </div>
+            
+          </CardBody>
+        </Card>
+      }
     </>
   );
 }

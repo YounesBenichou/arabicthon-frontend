@@ -141,7 +141,7 @@ export function Workers() {
                             variant="small"
                             className="mb-1 block text-sm font-medium text-blue-gray-600"
                           >
-                            {completion}%
+                            {completion == 100 ? "100" : completion.toString().substring(0,5)} %
                           </Typography>
                           <Progress
                             value={completion}

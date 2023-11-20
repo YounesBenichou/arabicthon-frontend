@@ -40,7 +40,10 @@ export const PostSourceFile = (postData) => axios.post(`${url_backend}${'/source
 export const PostSourceUrl = (postData) => axios.post(`${url_backend}${'/source/add'}`,postData, {
   method: 'POST',
   withCredentials: false,
-headers: headers_ngrok,
+headers: {
+  'Content-Type': 'multipart/form-data',
+    'ngrok-skip-browser-warning': 'true',
+},
 })
 export const PutSource = (postData) => axios.put(`${url_backend}${'/sources/update'}`,postData, headers_form_data)
 export const DeleteSource = (postData) => axios.delete(`${url_backend}${'/sources/delete'}`,postData, headers_form_data)
