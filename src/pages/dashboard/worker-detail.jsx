@@ -13,11 +13,11 @@ import {
 import { ProfileInfoCard } from "@/widgets/cards";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import * as api from "@/api";
 import { useTranslation } from "react-i18next";
-
+import { LinkIcon } from "@heroicons/react/20/solid";
 
 
 export function WorkerDetail() {
@@ -72,12 +72,23 @@ const [outputs, setOutputs] = useState(
   }
   // API : 
   const [completion, setCompletion] = useState(0)
+  const [sources, setSources] = useState(
+    [
+      {
+          "source_id": ""  , 
+          "name": "" ,
+          "type": "" ,
+          "url": "",        
+      },
+    ]
+  
+  )
   const fetWorkerDetail = async () => {
     try {
       const { data } = await api.fetchOneWorker(id)
        setWorkerDetail(data.data)
-       console.log(data.data)
        setOutputs(data.data.outputs)
+       setSources(data.data.sources)
     } catch (error) {
       console.log(error)
     }
@@ -105,8 +116,8 @@ const [outputs, setOutputs] = useState(
                   "المهمة": t(WorkerDetail.task),
                   "المجال": WorkerDetail.domain,
                   // "الكلمات المعنية": WorkerDetail.worker_inputs,
-                  "تاريخ البدء": WorkerDetail.start_date.split("T")[0] + " [" + WorkerDetail.start_date.split("T")[1] + "]",
-                  "تاريخ الإنتهاء": WorkerDetail.end_date.split("T")[0] + " [" + WorkerDetail.end_date.split("T")[1] + "]",
+                  // "تاريخ البدء": WorkerDetail.start_date.split("T")[0] + " [" + WorkerDetail.start_date.split("T")[1] + "]",
+                  // "تاريخ الإنتهاء": WorkerDetail.end_date.split("T")[0] + " [" + WorkerDetail.end_date.split("T")[1] + "]",
                   "نسبة عملية التحقق من المخرجات": (Math.round(WorkerDetail.completion * 100) / 100).toFixed(2) + "%",
                 }}
                 status = {WorkerDetail.worker_status}
@@ -117,9 +128,93 @@ const [outputs, setOutputs] = useState(
             </div>
             <div className="px-4 pb-4">
             <Typography variant="h5" color="blue-gray" className="font-noto font-bold underline mt-10 mb-3">
+                المصادر
+            </Typography>
+            <table className="w-full max-w-full min-w-[640px] table-auto">
+            <thead>
+              <tr>
+                {["إسم المصدر", "نوع", "الرابط",].map(
+                  (el) => (
+                    <th
+                      key={el}
+                      className="border-b border-blue-gray-50 py-3 px-5 text-right text-noto "
+                    >
+                      <Typography
+                        className="text-[13px] uppercase text-blue-gray-400  text-noto font-bold"
+                      >
+                        {el}
+                      </Typography>
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {sources.map(
+                ({source_id,source_name, source_url, source_type}, key) => {
+                  const className = `py-3 px-5 ${
+                    key === sources.length - 1
+                      ? ""
+                      : "border-b border-blue-gray-50"
+                  }`;
+
+                  return (
+                    <tr key={source_id} 
+                      className="hover:bg-blue-gray-100"
+                    >
+                      <td className={className}>
+                        <div className="flex items-center gap-4 ">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold font-noto text-blue-gray-800 w-1/4"
+                          >
+                            {source_name}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className={className} 
+                      >
+                        <div className="flex items-center gap-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold font-noto text-blue-gray-800"
+                          >
+                            {source_type}
+                          </Typography>
+                        </div>
+                      </td>
+
+                      <td className={className} 
+                      >
+                        <div className="flex items-center gap-4 max-w-1/3 w-1/4">
+                        <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold font-noto text-blue-gray-800 truncate"
+                          >
+
+                            <a href={source_url} target="_blank" className="underline"><LinkIcon className="w-5 h-5" /></a>
+
+                            
+                          </Typography>
+                        </div>
+                      </td>
+
+                      
+                    </tr>
+                  );
+                }
+              )}
+            </tbody>
+          </table>
+            </div>
+            <div className="px-4 pb-4">
+            <Typography variant="h5" color="blue-gray" className="font-noto font-bold underline mt-10 mb-3">
                 المخرجات
             </Typography>
-            <table className="w-full min-w-[640px] table-auto">
+            <table className="w-full min-w-[640px] table-auto overflow-scroll h[400px]">
               <thead>
                 <tr>
                   {["الكلمة المدخلة", "المخرج", "الحالة",].map(

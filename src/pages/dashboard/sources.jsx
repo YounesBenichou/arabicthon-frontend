@@ -15,6 +15,7 @@ import { useRef } from "react";
 import { ProfileInfoCard } from "@/widgets/cards";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
+import { LinkIcon } from "@heroicons/react/20/solid";
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import * as api from "@/api";
@@ -112,11 +113,11 @@ const [sources, setSources] = useState(
                       className="hover:bg-blue-gray-100"
                     >
                       <td className={className}>
-                        <div className="flex items-center gap-4 w-fit">
+                        <div className="flex items-center gap-4 ">
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-bold font-noto text-blue-gray-800 w-max"
+                            className="font-bold font-noto text-blue-gray-800 w-1/4 "
                           >
                             {source_name}
                           </Typography>
@@ -137,13 +138,16 @@ const [sources, setSources] = useState(
 
                       <td className={className} 
                       >
-                        <div className="flex items-center gap-4 max-w-2/3 w-2/4">
+                        <div className="flex items-center gap-4 max-w-1/3 w-1/4">
                         <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-bold font-noto text-blue-gray-800 truncate"
                           >
-                            {source_url}
+
+                            <a href={source_url} target="_blank" className="underline"><LinkIcon className="w-5 h-5" /></a>
+
+                            
                           </Typography>
                         </div>
                       </td>

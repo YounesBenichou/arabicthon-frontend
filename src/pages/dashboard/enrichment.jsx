@@ -33,10 +33,23 @@ export function Enrichment() {
       "ar": "تعريفات",
       "en": "definition"
   },
+  {
+    "ar":"مصطلحات متخصصة",
+    "en":"key_terms",
+  },
+  {
+    "ar":"أحداث تاريخية",
+    "en":"his_events",
+  },
+  {
+    "ar":"أماكن",
+    "en":"places",
+  }
+
   
   ]
 
-    
+  
   const domains = ["طب","زراعة","معلوماتية","علم البيانات"]
 
   // refs
@@ -70,12 +83,11 @@ export function Enrichment() {
   const createWorker = async () => {
     try {
 
-      console.log(        {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
-      )
-      const { data } = await api.PostWorker(
-        {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
-        )
+      // const { data } = await api.PostWorker(
+      //   {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
+      //   )
       alert('تم إنشاء عملية إثراء بنجاح')
+      console.log({...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]})
       navigate('/dashboard/workers') // go to workers 
     } catch (error) {
       console.log(error)
@@ -87,6 +99,7 @@ export function Enrichment() {
     fetchSources()
   }, []);
 
+  const [inputWords, setInputWords] = useState(false)
   return (
 
     <>
@@ -150,10 +163,22 @@ export function Enrichment() {
               onKeyPressFn={function noRefCheck(){}}
               onRemove={function noRefCheck(){}}
               onSearch={function noRefCheck(){}}
-              onSelect={function noRefCheck(){}}
+              onSelect={(selectedItem) => {
+                if (selectedItem[0].ar == 'تعريفات') {
+                  setInputWords(true)
+                }else setInputWords(false)        
+              }}
               options={tasks}
               className=" !border-[#01A4AC] focus:!border-[#01A4AC] border rounded-md  text-right"
               placeholder={null}
+              // onChange={(e)=>{
+              //   console.log(task_ref.current.getSelectedItems().map(item => item.en)[0] === 'تعريفات')
+                 //if (task_ref.current.getSelectedItems().map(item => item.en)[0] == 'تعريفات') {
+              //     setInputWords(true)
+                 
+              //   }else setInputWords(false)
+              // }}
+             
               style={{
                 chips: {
                   background: '#01A4AC',
@@ -246,6 +271,7 @@ export function Enrichment() {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
+                disabled={inputWords ? false : true}
                 onChange={(e) => setPostData({ ...postData, input_words: e.target.value })}
               />
             </div>

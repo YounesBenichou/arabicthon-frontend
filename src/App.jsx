@@ -33,6 +33,10 @@ i18n
           "file": "ملف",
           "wikipedia": "ويكيبيديا",
           "definition": "تعريف",
+          "enrichment": "عملية الإثراء" ,
+          "key_terms": "مصطلحات متخصصة",
+          "his_events": "أحداث تاريخية",
+          "places": "أماكن",
         }
       }
     },
@@ -50,7 +54,7 @@ function App() {
       <Route path="/" element={<Auth />} />
       <Route path="/auth/*" element={<Auth />} />
       <Route path="/dashboard/*" element={<Dashboard />} /> 
-      <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard/*" replace />} />
     </Routes>
   );
 }

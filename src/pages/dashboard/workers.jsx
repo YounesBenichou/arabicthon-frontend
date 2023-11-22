@@ -85,7 +85,7 @@ export function Workers() {
             </thead>
             <tbody>
               {workers.map(
-                ({worker_id,worker_name, domain, task, worker_status, completion}, key) => {
+                ({worker_id,worker_name, domain, task, worker_status, completion, source}, key) => {
                   const className = `py-3 px-5 ${
                     key === workers.length - 1
                       ? ""
@@ -93,7 +93,8 @@ export function Workers() {
                   }`;
 
                   return (
-                    <tr key={worker_id} onClick={() => navigate(`/dashboard/worker/detail/${worker_id}`)}
+                    <tr key={worker_id} onClick={() => navigate(`/dashboard/worker/detail/${worker_id}`
+                    )}
                       className="hover:bg-blue-gray-100"
                     >
                       <td className={className}>
