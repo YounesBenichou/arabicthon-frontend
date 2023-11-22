@@ -83,9 +83,9 @@ export function Enrichment() {
   const createWorker = async () => {
     try {
 
-      // const { data } = await api.PostWorker(
-      //   {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
-      //   )
+      const { data } = await api.PostWorker(
+        {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
+        )
       alert('تم إنشاء عملية إثراء بنجاح')
       console.log({...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]})
       navigate('/dashboard/workers') // go to workers 
