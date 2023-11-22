@@ -217,7 +217,7 @@ const [outputs, setOutputs] = useState(
             <table className="w-full min-w-[640px] table-auto overflow-scroll h[400px]">
               <thead>
                 <tr>
-                  { WorkerDetail.task === "defintion" ? ["الكلمة المدخلة", "المخرج", "الحالة",].map(
+                  { WorkerDetail.task === "definition" ? ["الكلمة المدخلة", "المخرج", "الحالة",].map(
                     (el) => (
                       <th
                         key={el}
@@ -275,7 +275,7 @@ const [outputs, setOutputs] = useState(
                           </div>
                         </td>
                         { 
-                        WorkerDetail.task === "defintion" && <td className={className} 
+                        WorkerDetail.task === "definition" && <td className={className} 
                         >
                           <div className="flex items-center gap-4">
                             <Typography
