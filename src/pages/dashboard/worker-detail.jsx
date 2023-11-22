@@ -217,7 +217,7 @@ const [outputs, setOutputs] = useState(
             <table className="w-full min-w-[640px] table-auto overflow-scroll h[400px]">
               <thead>
                 <tr>
-                  {["الكلمة المدخلة", "المخرج", "الحالة",].map(
+                  { WorkerDetail.task === "defintion" ? ["الكلمة المدخلة", "المخرج", "الحالة",].map(
                     (el) => (
                       <th
                         key={el}
@@ -230,7 +230,24 @@ const [outputs, setOutputs] = useState(
                         </Typography>
                       </th>
                     )
-                  )}
+                  ):
+                  
+                  [ "المخرج", "الحالة"].map(
+                    (el) => (
+                      <th
+                        key={el}
+                        className="border-b border-blue-gray-50 py-3 px-5 text-right text-noto "
+                      >
+                        <Typography
+                          className="text-[13px] uppercase text-blue-gray-400  text-noto font-bold"
+                        >
+                          {el}
+                        </Typography>
+                      </th>
+                    )
+                  )
+                  
+                  }
                 </tr>
               </thead>
               <tbody>
@@ -257,7 +274,8 @@ const [outputs, setOutputs] = useState(
                             </Typography>
                           </div>
                         </td>
-                        <td className={className} 
+                        { 
+                        WorkerDetail.task === "defintion" && <td className={className} 
                         >
                           <div className="flex items-center gap-4">
                             <Typography
@@ -269,7 +287,8 @@ const [outputs, setOutputs] = useState(
                             </Typography>
                           </div>
                         </td>
-
+                        
+                        } 
                         <td className={className} 
                         >
                           <div className="flex items-center gap-4">
