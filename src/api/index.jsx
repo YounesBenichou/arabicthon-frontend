@@ -4,7 +4,8 @@ import axios from 'axios';
 // 
 
 
-const url_backend = "https://live-raccoon-probably.ngrok-free.app"
+// const url_backend = "https://live-raccoon-probably.ngrok-free.app"
+const url_backend = "http://backend-app:8000"
 const url_event = '';
 const headers_ngrok = {
     'Content-Type': 'application/json',
