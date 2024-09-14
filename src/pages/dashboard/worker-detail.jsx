@@ -41,9 +41,9 @@ const [outputs, setOutputs] = useState(
   [
     {
       "id_relation": "1"  , 
-        "word": "" ,
-        "output": "",
-        "status": "" 
+      "word": "" ,
+      "output": "",
+      "status": "" 
     },
 
   ]
