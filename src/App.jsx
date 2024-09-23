@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Dashboard, Auth} from "@/layouts";
 import i18n from "i18next";
 import { useTranslation, initReactI18next } from "react-i18next";
+import { useUser } from '@clerk/clerk-react'
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -49,13 +50,59 @@ i18n
   });
 
 function App() {
+  const { isSignedIn, user, isLoaded } = useUser()
+
+  if (!isLoaded) {
+    // Handle loading state however you like
+    return null
+  }
   return (
+    // <ClerkProvider publishableKey={publishableKey}>
+
     <Routes>
-      <Route path="/" element={<Auth />} />
-      <Route path="/auth/*" element={<Auth />} />
-      <Route path="/dashboard/*" element={<Dashboard />} /> 
-      <Route path="*" element={<Navigate to="/dashboard/*" replace />} />
+        { !isSignedIn ? 
+        <>
+          <Route path="/" element={<Auth />} />
+          <Route path="/auth/*" element={<Auth />} />
+          <Route path="*" element={<Navigate to="/auth/*" replace />} />
+        </>
+          : 
+          <>
+          
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard/*" element={<Dashboard />} /> 
+        <Route path="*" element={<Navigate to="/dashboard/*" replace />} />
+        </>
+        }
     </Routes>
+    // </ClerkProvider>
   );
 }
 export default App;
+// if (!isLoaded) {
+//   // Handle loading state however you like
+//   return null
+// }
+
+// else if (isSignedIn) {
+
+//   <Routes>
+  
+//     <Route path="/" element={<Dashboard />} />
+//     <Route path="/dashboard/*" element={<Dashboard />} /> 
+//     <Route path="*" element={<Navigate to="/dashboard/*" replace />} />
+    
+//   </Routes>
+// }
+// else {
+// return (
+
+//   <Routes>
+
+//         <Route path="/" element={<Auth />} />
+//         <Route path="/auth" element={<Auth />} />
+//         <Route path="*" element={<Navigate to="/auth" replace />}/>
+
+//   </Routes>
+// );
+// }

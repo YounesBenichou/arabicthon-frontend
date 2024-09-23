@@ -7,9 +7,29 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useSignIn } from '@clerk/clerk-react';
+import React from "react";
 
 export function SignIn() {
   const navigate = useNavigate();
+  const { signIn, isLoaded } = useSignIn();
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+  const handleSignIn = async () => {
+
+    try {
+      await signIn.create({ identifier: username, password });
+      navigate(0);
+      console.log('Successfully signed in');
+      
+    } catch (err) {
+      setError('Failed to sign in. Please check your credentials.');
+      console.error('Failed to sign in. Please check your credentials');
+    }
+
+  };
+
   return (
     <section className=" flex gap-4 items-center justify-between h-screen bg-[#007a82]">
       <div className="w-full bg-[#007a82] mx-auto rounded-[20px]">
@@ -28,7 +48,8 @@ export function SignIn() {
         <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-2/3">
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" className="-mb-2 font-medium text-[#007a82] font-noto">
-            البريد الإلكتروني
+          
+              إسم المستخدم أو البريد الإلكتروني
             </Typography>
             <Input
               size="lg"
@@ -38,6 +59,7 @@ export function SignIn() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <Typography variant="small" className="-mb-2  mt-3 font-medium text-[#007a82] font-noto">
             كلمة المرور
@@ -51,10 +73,11 @@ export function SignIn() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           
-          <Button className="mt-10 text-lg bg-[#007a82]" fullWidth onClick={()=>navigate('/dashboard/workers')}>
+          <Button className="mt-10 text-lg bg-[#007a82]" fullWidth onClick={()=>handleSignIn()}>
               تسجيل الدخول
           </Button>
         </form>
