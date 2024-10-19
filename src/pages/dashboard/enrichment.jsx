@@ -32,30 +32,30 @@ export function Enrichment() {
   {
       "ar": "تعريفات",
       "en": "definition"
-  },
-  {
-    "ar":"مصطلحات متخصصة",
-    "en":"key_terms",
-  },
-  {
-    "ar":"أحداث تاريخية",
-    "en":"his_events",
-  },
-  {
-    "ar":"أماكن",
-    "en":"places",
   }
-
-  
+  // {
+  //   "ar":"مصطلحات متخصصة",
+  //   "en":"key_terms",
+  // },
+  // {
+  //   "ar":"أحداث تاريخية",
+  //   "en":"his_events",
+  // },
+  // {
+  //   "ar":"أماكن",
+  //   "en":"places",
+  // }
   ]
 
   
   const domains = ["طب","زراعة","معلوماتية","علم البيانات"]
+  const llms = ["Cohere"]
 
   // refs
   const source_ref = useRef(null)
   const task_ref = useRef(null)
   const domain_ref = useRef(null)
+  const llm_ref = useRef(null)
 
   // states
   const [sources, setSources] = useState(
@@ -84,7 +84,7 @@ export function Enrichment() {
     try {
 
       const { data } = await api.PostWorker(
-        {...postData, source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
+        {...postData, llm: llm_ref.current.getSelectedItems()[0], source_ids: source_ref.current.getSelectedItems().map(item => item.source_id), task: task_ref.current.getSelectedItems().map(item => item.en)[0], domain: domain_ref.current.getSelectedItems()[0]}
         )
         
       alert('تم إنشاء عملية إثراء بنجاح')
@@ -153,6 +153,62 @@ export function Enrichment() {
               />
             </div>
                 
+            <div>
+            <Typography variant="h6" className="font-lg mb-3 text-[#007a82] font-noto">
+              النموذج اللغوي 
+               </Typography>
+            
+               <Multiselect
+                isObject={false}
+                ref={llm_ref}
+                onKeyPressFn={function noRefCheck(){}}
+                onRemove={function noRefCheck(){}}
+                onSearch={function noRefCheck(){}}
+                onSelect={function noRefCheck(){}}
+                options={llms}
+                className=" !border-[#01A4AC] focus:!border-[#01A4AC] border rounded-md  text-right"
+                placeholder={null}
+              // onChange={(e)=>{
+              //   console.log(task_ref.current.getSelectedItems().map(item => item.en)[0] === 'تعريفات')
+                 //if (task_ref.current.getSelectedItems().map(item => item.en)[0] == 'تعريفات') {
+              //     setInputWords(true)
+                 
+              //   }else setInputWords(false)
+              // }}
+             
+              style={{
+                chips: {
+                  background: '#01A4AC',
+                  color: '#fff',
+                },
+                highlightOption: {
+                  background: '#01A4AC',
+                  color: '#fff'
+                },
+                highlight:{
+                  background: '#007a82',
+                  color: '#fff'
+                },
+                
+                multiselectContainer: {
+                  color: 'black',
+                },
+                option: {
+                  background: '#fff',
+                  color: '#007a82'
+                },
+                searchBox: {
+                  'border': '0px solid #01A4AC',
+                  'border-radius': '0px'
+                },
+                closeIcon:{
+                  'margin': '5px',
+                  display: 'none'
+                },
+              }}
+              singleSelect
+            />
+            </div>
             <div>
               <Typography variant="h6" className="font-lg mb-3 text-[#007a82] font-noto">
                 المهمة 

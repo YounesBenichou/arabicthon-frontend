@@ -19,7 +19,9 @@ import "../public/css/tailwind.css";
 
 import { ClerkProvider } from "@clerk/clerk-react";
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY || "clerk.dev_9Q";
+// const PUBLISHABLE_KEY = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY || "clerk.dev_9Q";
+
+const PUBLISHABLE_KEY = "pk_test_cGVhY2VmdWwtbGlvbi0xNC5jbGVyay5hY2NvdW50cy5kZXYk"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
